@@ -132,11 +132,13 @@ function _select_tiers() {
 				
 	}
 	
+	$max_tuple = empty($conf->global->POTARA_NB_TUPLE) ? 1000 : $conf->global->POTARA_NB_TUPLE;
 	$formCore = new TFormCore('auto','formFusion','post');
 	echo $formCore->hidden('action', 'fusion');
 	
+	echo $max_tuple;
 	?>
-	1000 tuple max. recommencez pour la suite
+	 tuple max. recommencez pour la suite
 	<table class="border liste" width="100%">
 		<tr class="liste_titre">
 			<th>Tiers de référence</th>
@@ -145,6 +147,7 @@ function _select_tiers() {
 		</tr>
 	<?php
 	
+
 	$nb_tuple = 0;
 	foreach($TTuple as $key=>$TSoc) {
 		
@@ -181,7 +184,7 @@ function _select_tiers() {
 		
 		$nb_tuple++;	
 		
-		if($nb_tuple>=100) break;
+		if($nb_tuple>=$max_tuple) break;
 		
 	}
 	
