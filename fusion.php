@@ -20,7 +20,9 @@ function _fusion() {
 
 	$TFusion = $_POST['TFusion'];
 	$TFieldNoFusion=array('id','datec','date_update','ref','nom');
-	$TFieldMetaphoneCompare=array('address','url','email');
+	$TFieldMetaphoneCompare=array('address','url','email','town');
+	
+	$conf->global->SOCIETE_CODECLIENT_ADDON = '';
 	
 	foreach($TFusion as $id_master=>$ids_slave) {
 		
@@ -73,7 +75,11 @@ function _fusion() {
 					
 				}
 				
-				$s1->update($s1->id);
+				if($s1->update($s1->id,$user,1,1,0)<=0) {
+					
+					var_dump($s1);
+					exit('UPDATE ERROR');
+				}
 				$s1->set_commnucation_level($user);
 				$s1->set_OutstandingBill($user);
 				$s1->set_parent($s1->parent);
@@ -175,7 +181,7 @@ function _select_tiers() {
 		
 		$nb_tuple++;	
 		
-		if($nb_tuple>=1000) break;
+		if($nb_tuple>=100) break;
 		
 	}
 	
