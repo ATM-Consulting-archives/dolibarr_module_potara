@@ -188,18 +188,18 @@ class modPotara extends DolibarrModules
 		// Add here entries to declare new menus
 		//
 		// Example to declare a new Top Menu entry and its Left menu entry:
-		// $this->menu[$r]=array(	'fk_menu'=>0,			                // Put 0 if this is a top menu
-		//							'type'=>'top',			                // This is a Top menu entry
-		//							'titre'=>'Potara top menu',
-		//							'mainmenu'=>'potara',
-		//							'leftmenu'=>'potara',
-		//							'url'=>'/potara/pagetop.php',
-		//							'langs'=>'mylangfile@potara',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-		//							'position'=>100,
-		//							'enabled'=>'$conf->potara->enabled',	// Define condition to show or hide menu entry. Use '$conf->potara->enabled' if entry must be visible if module is enabled.
-		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->potara->level1->level2' if you want your menu with a permission rules
-		//							'target'=>'',
-		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
+		$this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=tools',			                // Put 0 if this is a top menu
+									'type'=>'left',			                // This is a Top menu entry
+									'titre'=>'Potara',
+									'mainmenu'=>'potara',
+									'leftmenu'=>'potara',
+									'url'=>'/potara/fusion.php',
+									'langs'=>'potara@potara',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+									'position'=>100,
+									'enabled'=>'$conf->potara->enabled',	// Define condition to show or hide menu entry. Use '$conf->potara->enabled' if entry must be visible if module is enabled.
+									'perms'=>'1',			                // Use 'perms'=>'$user->rights->potara->level1->level2' if you want your menu with a permission rules
+									'target'=>'',
+									'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		// $r++;
 		//
 		// Example to declare a Left Menu entry into an existing Top menu entry:
