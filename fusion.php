@@ -94,6 +94,8 @@ function _fusion() {
 		
 	}
 
+	echo '<img src="./img/fusion.jpg" />';
+
 }
 
 function _add_note_private(&$s, $value) {
