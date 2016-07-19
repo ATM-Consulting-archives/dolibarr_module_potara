@@ -119,14 +119,17 @@ function _select_tiers() {
 	
 	$TTuple=array();
 	var_dump($conf->entity);
-	$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client FROM ".MAIN_DB_PREFIX."societe WHERE entity = ".$conf->entity." 
+	$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client 
+		FROM ".MAIN_DB_PREFIX."societe 
+		WHERE entity = ".$conf->entity."
 	");
 	
 	while($objs = $db->fetch_object($resSoc)) {
 		
 		//var_dump($objs->nom,metaphone($objs->nom,15),str_pad($objs->zip,5,'0'), $objs->town, metaphone($objs->town,10),$objs->status);
 		
-		$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0'). metaphone($objs->town,10);
+		//$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0'). metaphone($objs->town,10);
+		$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0');
 		
 		@$TTuple[$key][] = $objs;
 				
