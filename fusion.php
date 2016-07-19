@@ -129,6 +129,8 @@ function _select_tiers() {
 		//var_dump($objs->nom,metaphone($objs->nom,15),str_pad($objs->zip,5,'0'), $objs->town, metaphone($objs->town,10),$objs->status);
 		
 		//$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0'). metaphone($objs->town,10);
+		if($objs->zip == 'NULL') $objs->zip = '';
+
 		$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0');
 		
 		@$TTuple[$key][] = $objs;
