@@ -147,8 +147,7 @@ function _select_tiers() {
 		//$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0'). metaphone($objs->town,10);
 		if($objs->zip == 'NULL') $objs->zip = '';
 
-		$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0');
-		
+		$key = metaphone($objs->nom,15).str_pad(trim($objs->zip),5,'0');
 		@$TTuple[$key][] = $objs;
 				
 	}
@@ -156,7 +155,7 @@ function _select_tiers() {
 	$max_tuple = empty($conf->global->POTARA_NB_TUPLE) ? 1000 : $conf->global->POTARA_NB_TUPLE;
 	$formCore = new TFormCore('auto','formFusion','post');
 	echo $formCore->hidden('action', 'fusion');
-	
+//	var_dump($TTuple);
 	echo $max_tuple;
 	?>
 	 tuple max. recommencez pour la suite
