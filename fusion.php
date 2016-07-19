@@ -13,6 +13,16 @@
 	}
 
 	llxFooter();
+function _no_null(&$s) {
+	
+	foreach($s as $k=>&$v) {
+		
+		if($v === 'NULL' || $v === 'null') $v = '';
+		
+	}
+	
+}
+	
 function _fusion() {
 	global $db,$langs,$conf,$user;
 
@@ -29,6 +39,8 @@ function _fusion() {
 		$s1 = new Societe($db);
 		$s1->fetch($id_master);
 		
+		_no_null($s1);
+		
 		$TId_slave = explode(',',$ids_slave);
 		
 		foreach($TId_slave as $id_slave) {
@@ -42,7 +54,7 @@ function _fusion() {
 			
 			$s2 = new Societe($db);
 			if($s2->fetch($id_slave)>0) {
-				
+				_no_null($s2);
 				echo '('.$s1->id.') '. $s1->getNomUrl(1).' < ('.$s2->id.') '.$s2->getNomUrl().'<br />';
 				
 				foreach($s1 as $k=>$v) {
@@ -122,6 +134,7 @@ function _select_tiers() {
 	$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client 
 		FROM ".MAIN_DB_PREFIX."societe 
 		WHERE entity = ".$conf->entity."
+		AND nom LIKE '%africhim%'
 	");
 	
 	while($objs = $db->fetch_object($resSoc)) {
