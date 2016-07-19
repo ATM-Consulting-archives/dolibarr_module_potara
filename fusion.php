@@ -134,6 +134,7 @@ function _select_tiers() {
 	$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client 
 		FROM ".MAIN_DB_PREFIX."societe 
 		WHERE entity = ".$conf->entity."
+	ORDER BY nom
 	");
 	
 	while($objs = $db->fetch_object($resSoc)) {
