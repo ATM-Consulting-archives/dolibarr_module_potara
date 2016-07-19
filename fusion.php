@@ -2,6 +2,9 @@
 
 	require 'config.php';
 	dol_include_once('/potara/class/potara.class.php');
+
+	set_time_limit(0);
+	ini_set('memory_limit','1024M');
 	
 	$action = GETPOST('action');
 	
