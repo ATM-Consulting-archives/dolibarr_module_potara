@@ -61,28 +61,79 @@ class ActionsPotara
 	 */
 	function doActions($parameters, &$object, &$action, $hookmanager)
 	{
-		$error = 0; // Error counter
-		$myvalue = 'test'; // A result value
-
-		print_r($parameters);
-		echo "action: " . $action;
-		print_r($object);
-
-		if (in_array('somecontext', explode(':', $parameters['context'])))
+	
+		if (in_array('thirdpartycard', explode(':', $parameters['context'])) && $action === 'add')
 		{
+			
+			if(GETPOST('createTupple')!='') return 0;
+			
+			global $langs, $potara_tupple_detected;
 		  // do something only for the context 'somecontext'
+			
+			define('INC_FROM_DOLIBARR',true);
+			dol_include_once('/potara/config.php');
+			dol_include_once('/potara/class/potara.class.php');
+			
+			$error = 0;
+			
+			$pot = new TPotara;
+			$Tab = $pot->searchTuple( $pot->getObjectKey(GETPOST('name'), GETPOST('zipcode')) );
+			
+			if(count($Tab) > 0) {
+				$error++ ;
+				$potara_tupple_detected = count($Tab);
+				$errors = $langs->trans('PotentialTuppleDetected');
+				
+				foreach ($Tab as &$obj) {
+					
+					$societe = new Societe($db);
+					$societe->id = $obj->rowid;
+					$societe->name = $obj->nom;
+					
+					$errors.="<br /> ".$societe->getNomUrl(1);
+				}
+				
+			}
+			
+			if (! $error)
+			{
+				return 0; // or return 1 to replace standard code
+			}
+			else
+			{
+				$action='create';
+				
+				$this->errors[] = $errors;
+				return -1;
+			}
+			
 		}
 
-		if (! $error)
-		{
-			$this->results = array('myreturn' => $myvalue);
-			$this->resprints = 'A text to show';
-			return 0; // or return 1 to replace standard code
-		}
-		else
-		{
-			$this->errors[] = 'Error message';
-			return -1;
-		}
+		
 	}
+	
+	function formObjectOptions($parameters, &$object, &$action, $hookmanager) {
+		
+		if (in_array('thirdpartycard', explode(':', $parameters['context'])) && $action === 'create')
+		{
+			global $potara_tupple_detected, $langs;
+			
+			if(!empty($potara_tupple_detected)) {
+				
+				echo '<input class="button" name="createTupple" value="'.$langs->trans('CreateThirdpartyBeyondTupple', $potara_tupple_detected).'" type="submit"> ';
+				
+				?>
+				<script type="text/javascript">
+
+				$('input[name=createTupple]').before($('input[name=createTupple]').closest('table')).wrap('<div align="center" />');
+				</script>
+
+				<?php 
+				
+			}
+			
+		}
+		
+	}
+	
 }

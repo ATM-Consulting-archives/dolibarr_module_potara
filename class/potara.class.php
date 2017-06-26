@@ -13,6 +13,46 @@ class TPotara extends TObjetStd{
 		
 	}
 	
+	function getObjectKey($name, $zip) {
+		global $conf;
+		
+		$precision = empty($conf->global->POTARA_METAPHONE_PRECISION) ? 15 : $conf->global->POTARA_METAPHONE_PRECISION;
+		
+		return metaphone($name,$precision).str_pad(trim($zip),5,'0');
+	}
+	
+	function searchTuple($keySearch = null) {
+		global $conf, $TTuple,$db;
+		
+		if(empty($TTuple))$TTuple=array();
+		
+		$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client
+			FROM ".MAIN_DB_PREFIX."societe
+			WHERE entity = ".$conf->entity."
+			ORDER BY nom
+		");
+		
+		
+		while($objs = $db->fetch_object($resSoc)) {
+
+			if($objs->zip == 'NULL') $objs->zip = '';
+			
+			$key = $this->getObjectKey($objs->nom, $objs->zip);
+			@$TTuple[$key][] = $objs;
+			
+		}
+		
+		if(!is_null($keySearch)) {
+			
+			if(isset($TTuple[$keySearch])) return $TTuple[$keySearch];
+			else return array();
+			
+		}
+		
+		return $TTuple;
+		
+	}
+	
 	function fetchTuple(&$PDOdb, $id_master, $id_slave) {
 		
 		

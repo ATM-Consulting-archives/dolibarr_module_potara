@@ -133,12 +133,17 @@ function _select_tiers() {
 
 	
 	$TTuple=array();
-	var_dump($conf->entity);
+	
+	
+	echo $langs->trans('Entity').' : '.$conf->entity;
+	
 	$resSoc = $db->query("SELECT rowid,nom,zip,town,status,client 
 		FROM ".MAIN_DB_PREFIX."societe 
 		WHERE entity = ".$conf->entity."
 	ORDER BY nom
 	");
+	
+	$precision = empty($conf->global->POTARA_METAPHONE_PRECISION) ? 15 : $conf->global->POTARA_METAPHONE_PRECISION;
 	
 	while($objs = $db->fetch_object($resSoc)) {
 		
@@ -147,7 +152,7 @@ function _select_tiers() {
 		//$key = metaphone($objs->nom,15).str_pad($objs->zip,5,'0'). metaphone($objs->town,10);
 		if($objs->zip == 'NULL') $objs->zip = '';
 
-		$key = metaphone($objs->nom,15).str_pad(trim($objs->zip),5,'0');
+		$key = metaphone($objs->nom,$precision).str_pad(trim($objs->zip),5,'0');
 		@$TTuple[$key][] = $objs;
 				
 	}
@@ -158,7 +163,7 @@ function _select_tiers() {
 //	var_dump($TTuple);
 	echo $max_tuple;
 	?>
-	 tuple max. recommencez pour la suite
+	 tuples max. recommencez pour la suite
 	<table class="border liste" width="100%">
 		<tr class="liste_titre">
 			<th>Tiers de référence</th>

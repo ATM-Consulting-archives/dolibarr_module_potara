@@ -5,3 +5,9 @@ ATMAbout = Ce module a été développé par <a href="http://www.atm-consulting.
 
 PotaraSetup = Configuration du module Potara
 PotaraAbout = A propos du module Potara
+
+POTARA_NB_TUPLE=Nombre maximum de tupples à rechercher pour fusion (1000 par défaut)
+POTARA_METAPHONE_PRECISION=Precision pour la recherche phonétique (15 par défaut, plus grand plus restrictif)
+
+PotentialTuppleDetected=Doublon potentiel détecté
+CreateThirdpartyBeyondTupple=Créér le tiers malgré le(s) %s potentiel(s) tupple(s)
